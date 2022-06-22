@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using MVC_ECommerceTrgovina.Data;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +12,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    // Omoguæeno korištenje rola u projektu
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// Dodavanje sesije u projekt
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -30,6 +37,28 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Postavke za decimalnu toèku
+var defaultDateCulture = "de-De";
+var ci = new CultureInfo(defaultDateCulture);
+
+ci.NumberFormat.NumberDecimalSeparator = ".";
+ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
+app.UseRequestLocalization(
+    new RequestLocalizationOptions
+    {
+        DefaultRequestCulture = new RequestCulture(ci),
+        SupportedCultures = new List<CultureInfo>
+        {
+            ci
+        },
+        SupportedUICultures = new List<CultureInfo>
+        {
+            ci
+        }
+    }
+);
 
 app.UseRouting();
 
