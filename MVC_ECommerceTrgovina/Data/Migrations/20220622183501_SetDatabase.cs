@@ -64,7 +64,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Publisher",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -74,11 +74,11 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Publisher", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Author",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -93,38 +93,38 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Author", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Author_AspNetUsers_UserId",
+                        name: "FK_Items_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Author_Publisher_CategoryId",
+                        name: "FK_Items_Category_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Publisher",
+                        principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Author_CategoryId",
-                table: "Author",
+                name: "IX_Items_CategoryId",
+                table: "Items",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Author_UserId",
-                table: "Author",
+                name: "IX_Items_UserId",
+                table: "Items",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Author");
+                name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Publisher");
+                name: "Category");
 
             migrationBuilder.DropColumn(
                 name: "Address",

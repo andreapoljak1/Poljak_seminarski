@@ -38,8 +38,8 @@ namespace MVC_ECommerceTrgovina.Data
         {
         }
 
-        public DbSet<Category> Publisher { get; set; }
-        public DbSet<Items> Author { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Items> Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
