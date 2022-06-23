@@ -31,7 +31,7 @@ namespace MVC_ECommerceTrgovina.Data
         [Column(TypeName = "nvarchar(500)")]
         public string? Image { get; set; }
     }
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
