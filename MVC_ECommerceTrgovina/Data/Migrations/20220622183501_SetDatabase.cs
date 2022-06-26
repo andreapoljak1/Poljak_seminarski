@@ -30,13 +30,6 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "Discriminator",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
                 name: "FirstName",
                 table: "AspNetUsers",
                 type: "nvarchar(50)",
@@ -47,7 +40,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 name: "Image",
                 table: "AspNetUsers",
                 type: "nvarchar(500)",
-                nullable: true);
+                nullable: false);
 
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
@@ -61,7 +54,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 table: "AspNetUsers",
                 type: "nvarchar(5)",
                 maxLength: 5,
-                nullable: true);
+                nullable: false);
 
             migrationBuilder.CreateTable(
                 name: "Category",

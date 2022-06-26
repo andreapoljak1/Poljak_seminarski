@@ -25,7 +25,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
 
             // Kreiranje INSERT INTO querya
             sb.AppendLine("INSERT INTO AspNetUsers(Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled," +
-                "LockoutEnd,LockoutEnabled,AccessFailedCount,Address,City,Country,Discriminator,FirstName,Image,LastName,ZIPCode)");
+                "LockoutEnd,LockoutEnabled,AccessFailedCount,Address,City,Country,FirstName,Image,LastName,ZIPCode)");
             sb.AppendLine("VALUES(");
             sb.AppendLine($"'{ADMIN_USER_GUID}'");//Id
             sb.AppendLine(",'admin@admin.com'");//UserName
@@ -45,7 +45,6 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
             sb.AppendLine(", ''");//Address
             sb.AppendLine(", ''");//City
             sb.AppendLine(", ''");//Country
-            sb.AppendLine(", ''");//Discriminator
             sb.AppendLine(",'Admin'");//FirstName
             sb.AppendLine(", ''");//Image
             sb.AppendLine(", ''");//LastName

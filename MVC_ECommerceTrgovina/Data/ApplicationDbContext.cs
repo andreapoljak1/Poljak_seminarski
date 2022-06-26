@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MVC_ECommerceTrgovina.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MVC_ECommerceTrgovina.Areas.Admin.Models;
 
 namespace MVC_ECommerceTrgovina.Data
 {
@@ -53,5 +54,7 @@ namespace MVC_ECommerceTrgovina.Data
                 .OnDelete(DeleteBehavior.Restrict);
             
         }
+
+        public DbSet<MVC_ECommerceTrgovina.Areas.Admin.Models.Users>? Users { get; set; }
     }
 }
