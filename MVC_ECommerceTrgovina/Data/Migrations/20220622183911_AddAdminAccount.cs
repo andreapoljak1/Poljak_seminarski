@@ -19,7 +19,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
             var hasher = new PasswordHasher<ApplicationUser>();
 
             // Lozinka za admin korisnički račun
-            var passwordHash = hasher.HashPassword(null, "Password12345"); // Napomena: U praksi postoje bolji načini da se zaštiti ova lozinka
+            var passwordHash = hasher.HashPassword(null, "Password12345"); 
 
             StringBuilder sb = new StringBuilder();
 

@@ -15,8 +15,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     // Omoguæeno korištenje rola u projektu
     .AddRoles<IdentityRole>()
+    
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+
 
 // Dodavanje sesije u projekt
 builder.Services.AddSession();

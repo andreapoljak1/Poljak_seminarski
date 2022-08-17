@@ -55,6 +55,6 @@ namespace MVC_ECommerceTrgovina.Data
             
         }
 
-        public DbSet<MVC_ECommerceTrgovina.Areas.Admin.Models.Users>? Users { get; set; }
+       //public DbSet<MVC_ECommerceTrgovina.Areas.Admin.Models.Users>? Users { get; set; }
     }
 }

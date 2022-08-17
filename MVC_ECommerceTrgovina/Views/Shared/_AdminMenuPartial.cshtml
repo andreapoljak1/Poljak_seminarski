@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MVC_ECommerceTrgovina.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@*
+    1. uvjet: korisnik mora biti prijavljen
+    2. uvjet: prijavljeni korisnik mora imati ulogu admina
+*@
+@if(
+    SignInManager.IsSignedIn(User) &&
+    await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result,"admin")
+) 
+{
+    <div class="dropdown">
+            <a class="btn nav-link text-dark dropdown-toggle" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+            <li>
+                <a class="dropdown-item" type="button" asp-area="admin" asp-controller="users" asp-action="create">Novi korisnik</a>
+            </li>
+
+           
+        </ul>
+    </div>
+}

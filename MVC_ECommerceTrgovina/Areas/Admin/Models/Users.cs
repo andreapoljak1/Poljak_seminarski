@@ -1,49 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using MVC_ECommerceTrgovina.Data;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC_ECommerceTrgovina.Areas.Admin.Models
 {
-     public class Users
+    public class Users
     {
-        public string Id { get; set; }
-        [Required]
-        public string UserName { get; set; }
-        [Required]
-        public string NormalizedUserName { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string NormalizedEmail { get; set; }
-    
-        public bool EmailConfirmed { get; set; }
-        [Required]
-        public string PasswordHash { get; set; }
-        [Required]
-        public string SecurityStamp { get; set; }
-        [Required]
-        public string ConcurrencyStamp { get; set; }
-        [Required]
-        public string PhoneNumber { get; set; }
-        [Required]
-        public DateTime LockoutEnd { get; set; }
-        [Required]
-        public string Address { get; set; }
-        [Required]
-        public string City { get; set; }
-        [Required]
-        public string Country { get; set; }
-        [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
+        [NotMapped]
         public string Name { get; set; }
-        public string? ZIPCode { get; set; }
-   
-        [Column(TypeName = "nvarchar(500)")]
-        public string? ImageName { get; set; }
+        [NotMapped]
         public string Rola { get; set; }
+        [NotMapped]
         public string RoleId { get; set; }
-        
+        [NotMapped]
+        public string Email { get; set; }
+        [NotMapped]
+        public int Id { get; set; }
+
 
     }
+    public class UserRoleViewModel
+    {
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
+       
+    }
+
 }
