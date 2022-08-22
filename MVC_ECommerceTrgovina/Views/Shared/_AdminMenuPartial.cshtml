@@ -13,6 +13,7 @@
     await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result,"admin")
 ) 
 {
+    
     <div class="dropdown">
             <a class="btn nav-link text-dark dropdown-toggle" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
             Admin
@@ -20,7 +21,9 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 
             <li>
-                <a class="dropdown-item" type="button" asp-area="admin" asp-controller="users" asp-action="create">Novi korisnik</a>
+                <a class="nav-link text-dark" asp-area="admin" asp-controller="Products" asp-action="Index">Pregled proizvoda</a>
+                <a class="nav-link text-dark" asp-area="admin" asp-controller="users" asp-action="Index">Pregled korisnika</a>
+                
             </li>
 
            

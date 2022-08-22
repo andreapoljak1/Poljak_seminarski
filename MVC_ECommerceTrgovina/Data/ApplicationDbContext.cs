@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MVC_ECommerceTrgovina.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MVC_ECommerceTrgovina.Areas.Admin.Models;
+using MVC_ECommerceTrgovina.Data;
 
 namespace MVC_ECommerceTrgovina.Data
 {
@@ -30,7 +30,7 @@ namespace MVC_ECommerceTrgovina.Data
         public string Country { get; set; }
        
         [Column(TypeName = "nvarchar(500)")]
-        public string? Image { get; set; }
+        public string? ImageName { get; set; }
     }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

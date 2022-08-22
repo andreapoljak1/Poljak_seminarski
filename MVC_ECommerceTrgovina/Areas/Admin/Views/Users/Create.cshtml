@@ -1,4 +1,4 @@
-﻿@model MVC_ECommerceTrgovina.Data.ApplicationUser
+﻿@model MVC_ECommerceTrgovina.Models.Users
 @{
     ViewData["Title"] = "Create";
 }
@@ -14,7 +14,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
           <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -68,7 +68,8 @@
           
               <div class="form-group mt-2 mb-2">
                 <label>Učitaj sliku</label>
-                <input type="file" name="ImageName" class="form-control" />
+                <input type="file" name="Image" class="form-control" />
+          
             </div>
            @* @if(ViewBag.Role.Count > 0)
             {

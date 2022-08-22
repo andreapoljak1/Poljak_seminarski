@@ -315,7 +315,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("LastName")

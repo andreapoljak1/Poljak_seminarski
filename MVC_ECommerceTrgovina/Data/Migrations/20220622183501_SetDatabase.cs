@@ -37,7 +37,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "Image",
+                name: "ImageName",
                 table: "AspNetUsers",
                 type: "nvarchar(500)",
                 nullable: false);
@@ -140,7 +140,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
-                name: "Image",
+                name: "ImageName",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(

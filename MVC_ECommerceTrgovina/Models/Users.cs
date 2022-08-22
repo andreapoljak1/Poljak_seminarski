@@ -4,20 +4,20 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MVC_ECommerceTrgovina.Areas.Admin.Models
+namespace MVC_ECommerceTrgovina.Models
 {
-    public class Users
+    public class Users : ApplicationUser
     {
         [NotMapped]
         public string Name { get; set; }
         [NotMapped]
+        [DisplayName("Tip korisnika")]
         public string Rola { get; set; }
         [NotMapped]
         public string RoleId { get; set; }
         [NotMapped]
         public string Email { get; set; }
-        [NotMapped]
-        public int Id { get; set; }
+
 
 
     }
@@ -25,7 +25,7 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Models
     {
         public string UserId { get; set; }
         public string RoleId { get; set; }
-       
+
     }
 
 }
