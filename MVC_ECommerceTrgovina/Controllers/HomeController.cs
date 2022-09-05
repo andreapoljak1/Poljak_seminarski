@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVC_ECommerceTrgovina.Data;
 using MVC_ECommerceTrgovina.Models;
 using System.Diagnostics;
 
@@ -7,15 +8,29 @@ namespace MVC_ECommerceTrgovina.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? categoryId)
         {
-            return View();
+            List<Items> items = new List<Items>();
+            if (categoryId == null)
+            {
+                items = _context.Items.ToList();
+
+            }
+            else
+            {
+                items = _context.Items.Where(s => s.CategoryId == categoryId).ToList();
+            }
+
+            ViewBag.Categories = _context.Category.ToList();
+
+            return View(items);
         }
 
         public IActionResult Privacy()

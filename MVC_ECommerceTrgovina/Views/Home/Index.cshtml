@@ -1,8 +1,36 @@
-﻿@{
+﻿@model IEnumerable<MVC_ECommerceTrgovina.Models.Items>
+@{
     ViewData["Title"] = "Home Page";
 }
+@foreach (var item in Model)
+{
+    <div class="card float-md-start m-2" style="width: 18rem;">
+  @*<img class="card-img-top" src="..." alt="Card image cap">*@
+  @if (item.ImageName == null || item.ImageName == "")
+            {
+               <p>
+                    <img class="card-img-top" src="~/images/image-not-found.jpg" height=250; width=250 >
+                </p>
+            }
+            else
+            {
+                 <p>
+                    <img class="card-img-top" src="~/images/@item.ImageName" height=250; width=250>
+                </p>
+                
+            }
+  <div class="card-body">
+    <h5 class="card-title">@item.Title</h5>
+    <p class="card-text">@item.Description</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">@item.Price</li>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
 </div>
+}
+
