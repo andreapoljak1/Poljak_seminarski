@@ -13,7 +13,8 @@
 }
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -55,6 +56,26 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+    <div class="col-md-4">
+         @if (Model.ImageName == null || Model.ImageName == "")
+            {
+               <p>
+                    <img src="~/images/no-user.jpg" height=250; width=250 >
+                </p>
+            }
+            else
+            {
+                 <p>
+                    <img src="~/images/@Model.ImageName" height=250; width=250>
+                </p>
+                
+            }
+            <div class="form-group mt-2 mb-2">
+                <label>Učitaj sliku</label>
+                <input type="file" name="Image" class="form-control" />
+          
+            </div>
     </div>
 </div>
 

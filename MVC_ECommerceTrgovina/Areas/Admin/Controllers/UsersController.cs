@@ -22,10 +22,7 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
         // GET: UsersController
         public ActionResult Index()
         {
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var userRole = _context.UserRoles.FirstOrDefault(p => p.UserId == userId);
-            //var roleName = _context.Roles.FirstOrDefault(s => s.Id == userRole.RoleId);
-       
+                 
             var users = _context.Users.Select(
                 s => new Users
                 {
@@ -115,6 +112,7 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                 var hasher = new PasswordHasher<ApplicationUser>();
 
                 korisnik.PasswordHash = hasher.HashPassword(null, korisnik.PasswordHash);
+                
                 korisnik.Email = korisnik.Email;
                 korisnik.NormalizedEmail = korisnik.Email;
                 korisnik.NormalizedUserName = korisnik.Email.ToUpper();
@@ -167,7 +165,8 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                {
                    Id = s.Id,
                    Address = s.Address == "" ? "Nije navedena adresa" : s.Address,
-                   City = s.City == "" ? "" : s.ZIPCode + " " + s.City == "" ? "Nije naveden grad" : s.City,
+                   City = s.City == "" ? ""  : s.City,
+                   ZIPCode= s.ZIPCode == "" ? "" : s.ZIPCode,
                    Country = s.Country == null ? "Nije naveden grad" : s.Country,
                    Email = s.Email,
                    FirstName = s.FirstName,
@@ -188,52 +187,126 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
             }
 
 
-            return View();
         }
 
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, Users model)
+        public ActionResult Edit(string Id, Users model, IFormFile Image)
         {
             try
             {
-                if (id == null || id == "")
+                if (Id == null || Id == "")
                 {
-                    return RedirectToAction("Edit", new { product_id = id, message = "Nije odabran korisnik, došlo je do pogreške." });
+                    return RedirectToAction("Edit", new { product_id = Id, message = "Nije odabran korisnik, došlo je do pogreške." });
                 }
-                var user = _context.Users.FirstOrDefault(s => s.Id == id);
+                var checkKorsinickoIme = _context.Users.FirstOrDefault(s => s.Email == model.Email);
+                if (checkKorsinickoIme != null)
+                {
+                    return RedirectToAction("Create", new { message = "Ovaj e-mail se već koristi." });
+                }
+                var user = _context.Users.FirstOrDefault(s => s.Id == Id);
+                if(user != null)
+                {
+                    if (Image != null)
+                    {
+                        var image_name = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + "-" + Image.FileName.ToLower();
 
-                _context.Users.Update(model);
-                _context.SaveChanges();
+                        var save_image_path = Path.Combine(
+                                                    Directory.GetCurrentDirectory(),
+                                                    "wwwroot/images",
+                                                    image_name
+                                              );
+
+                        using (var stream = new FileStream(save_image_path, FileMode.Create))
+                        {
+                            Image.CopyTo(stream);
+                        }
+
+                        user.ImageName = image_name;
+                    }
+                    user.Email = model.Email;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.NormalizedEmail = model.Email;
+                    user.NormalizedUserName = model.Email.ToUpper();
+                    user.UserName = model.Email;
+                    user.Address = model.Address;
+                    user.ZIPCode = model.ZIPCode;
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.City = model.City;
+
+                    _context.SaveChanges();
 
 
-                return RedirectToAction("Edit", new { id = id, message = "Podaci korisnika su uspješno ažurirani!" });
+                    return RedirectToAction("Edit", new { id = Id, message = "Podaci korisnika su uspješno ažurirani!" });
+                }
+                else
+                {
+                    return RedirectToAction("Edit", new { id = Id, message = "Korisnik nije pronađen u bazi, došlo je do pogreške." });
+                }
+                
             }
             catch(Exception ex)
             {
-                return RedirectToAction("Edit", new { product_id = id, message = ex.Message });
+                return RedirectToAction("Edit", new { id = Id, message = ex.Message });
             }
         }
 
         // GET: UsersController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id, string? error_message)
         {
-            return View();
+            if (id == "")
+            {
+                return RedirectToAction("Index");
+            }
+            var korisnik = _context.Users.SingleOrDefault(p => p.Id == id);
+
+           if (korisnik == null)
+            {
+                return RedirectToAction("Index", new { msg = "Korisnik ne postoji, dogodila se pogreška." });
+            }
+
+            ViewBag.KorisnikErrorMessage = error_message;
+
+            return View(korisnik);
         }
 
         // POST: UsersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(string id, IFormCollection collection)
         {
+            if (id == "")
+            {
+                return RedirectToAction("Index");
+            }
+
             try
             {
+                var find_User = _context.Users.FirstOrDefault(s => s.Id == id);
+
+                if (find_User == null)
+                {
+                    return View("Delete", new { product_id = id, msg = "Korisnik ne postoji." });
+                }
+
+                var ifInItems = _context.Items.FirstOrDefault(s => s.UserId == id);
+                if (ifInItems != null)
+                {
+                    return View("Delete", new { product_id = id, msg = "Korisnik je već dodavao proizvode i nije ga moguće brisati." });
+                }
+              
+                _context.Users.Remove(find_User);
+                _context.SaveChanges();
+
+              
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return RedirectToAction("Delete", new { error_message = ex.InnerException.Message });
             }
         }
     }

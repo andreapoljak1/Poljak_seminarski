@@ -54,7 +54,7 @@ namespace MVC_ECommerceTrgovina.Data.Migrations
                 table: "AspNetUsers",
                 type: "nvarchar(5)",
                 maxLength: 5,
-                nullable: false);
+                nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "Category",

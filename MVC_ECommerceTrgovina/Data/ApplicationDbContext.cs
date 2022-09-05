@@ -41,7 +41,7 @@ namespace MVC_ECommerceTrgovina.Data
 
         public DbSet<Category> Category { get; set; }
         public DbSet<Items> Items { get; set; }
-
+              
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -52,9 +52,56 @@ namespace MVC_ECommerceTrgovina.Data
                 .WithMany(e => e.Item)
                 .HasForeignKey(o => o.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
+
+            //Seedanje podataka
+            builder.Entity<Category>().HasData(
+                  new Category
+                  {
+                      Id = 1,
+                      Title = "Programi",
+                      Description = "Instalacijski programi",
+
+                  },
+                   new Category
+                   {
+                       Id = 2,
+                       Title = "Mobiteli",
+                       Description = "Rabljeni mobiteli",
+
+                   }
+              );
+
+            builder.Entity<Items>().HasData(
+                   new Items
+                   {
+                       Id = 1,
+                       Title = "ZWCAD",
+                       Description = "2D & 3D CAD program - odlična alternativa",
+                       Quantity = 2,
+                       Price=7000.00M,
+                       ImageName =null,
+                       CategoryId=1,
+                       UserId= "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                   },
+                    new Items
+                    {
+                        Id = 2,
+                        Title = "AutoCAD",
+                        Description = "2D & 3D CAD program",
+                        Quantity = 2,
+                        Price = 25000.00M,
+                        ImageName = null,
+                        CategoryId = 1,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+               );
+
+
         }
 
-       //public DbSet<MVC_ECommerceTrgovina.Areas.Admin.Models.Users>? Users { get; set; }
+      
     }
 }
