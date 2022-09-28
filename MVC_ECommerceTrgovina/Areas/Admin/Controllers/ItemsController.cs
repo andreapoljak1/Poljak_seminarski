@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -64,26 +65,49 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Title");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+          
             return View();
         }
 
         // POST: Admin/Items/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Quantity,Price,ImageName,CategoryId,UserId")] Items items)
+        public async Task<IActionResult> Create(Items items, IFormFile Image)
         {
-            if (ModelState.IsValid)
+            try
             {
+                if (Image != null)
+                {
+                    var image_name = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + "Item-" + Image.FileName.ToLower();
+
+                    var save_image_path = Path.Combine(
+                                                Directory.GetCurrentDirectory(),
+                                                "wwwroot/images",
+                                                image_name
+                                          );
+
+                    using (var stream = new FileStream(save_image_path, FileMode.Create))
+                    {
+                        Image.CopyTo(stream);
+                    }
+
+                    items.ImageName = image_name;
+                }
+
                 _context.Add(items);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Title", items.CategoryId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", items.UserId);
-            return View(items);
+            catch (Exception ex)
+            {
+
+                return View();
+            }
+                
+          
+            
+            
         }
 
         // GET: Admin/Items/Edit/5

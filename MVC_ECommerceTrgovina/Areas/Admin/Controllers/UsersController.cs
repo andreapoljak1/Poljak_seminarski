@@ -87,7 +87,7 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Create", new { msg = "Ovaj e-mail se već koristi." });
                 }
-
+                
                 korisnik.ImageName = "";
                 if (Image != null)
                 {
@@ -107,25 +107,21 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                     korisnik.ImageName = image_name;
                 }
                 Guid guid = Guid.NewGuid();
-
                 korisnik.Id = guid.ToString();
                 var hasher = new PasswordHasher<ApplicationUser>();
-
                 korisnik.PasswordHash = hasher.HashPassword(null, korisnik.PasswordHash);
-                
-                korisnik.Email = korisnik.Email;
+                         
                 korisnik.NormalizedEmail = korisnik.Email;
                 korisnik.NormalizedUserName = korisnik.Email.ToUpper();
                 korisnik.UserName = korisnik.Email;
                 korisnik.LockoutEnd = DateTime.Now;
-                               
+                      
                 _context.Add(korisnik);
                 _context.SaveChanges(); 
 
                 //Ograničavam na dvije role, admina više nije moguće dodati svi ostali su korisnici.
 
                var UserRoleId= _context.Roles.FirstOrDefault(s=>s.Name=="Korisnik");
-               
                
                 IdentityUserRole<string> identityUserRole= new IdentityUserRole<string>();
                 identityUserRole.UserId = korisnik.Id;
@@ -200,7 +196,7 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                 {
                     return RedirectToAction("Edit", new { product_id = Id, message = "Nije odabran korisnik, došlo je do pogreške." });
                 }
-                var checkKorsinickoIme = _context.Users.FirstOrDefault(s => s.Email == model.Email);
+                var checkKorsinickoIme = _context.Users.FirstOrDefault(s => s.Email == model.Email && s.Id != Id);
                 if (checkKorsinickoIme != null)
                 {
                     return RedirectToAction("Create", new { message = "Ovaj e-mail se već koristi." });
@@ -210,6 +206,16 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                 {
                     if (Image != null)
                     {
+
+                        string FileName = user.ImageName;
+                        string PathDelete = "wwwroot/images\\" + FileName;
+
+                        FileInfo file = new FileInfo(PathDelete);
+                        if (file.Exists)
+                        {
+                            file.Delete();
+                        }
+
                         var image_name = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + "-" + Image.FileName.ToLower();
 
                         var save_image_path = Path.Combine(
@@ -239,7 +245,7 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                     _context.SaveChanges();
 
 
-                    return RedirectToAction("Edit", new { id = Id, message = "Podaci korisnika su uspješno ažurirani!" });
+                    return RedirectToAction("Index", new { id = Id, message = "Podaci korisnika su uspješno ažurirani!" });
                 }
                 else
                 {
@@ -260,7 +266,18 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-            var korisnik = _context.Users.SingleOrDefault(p => p.Id == id);
+            var korisnik = _context.Users.Where(p => p.Id == id).Select(
+                s => new Users
+                {
+                    Id = s.Id,
+                    Address = s.Address == "" ? "Nije navedena adresa" : s.Address,
+                    City = s.ZIPCode == "" ? "" : s.ZIPCode + " " + s.City == "" ? "Nije naveden grad" : s.City,
+                    Country = s.Country == null ? "Nije naveden grad" : s.Country,
+                    Email = s.Email,
+                    Rola = _context.Roles.FirstOrDefault(x => x.Id == _context.UserRoles.FirstOrDefault(p => p.UserId == id).RoleId).Name,
+                    Name = $"{s.FirstName} {s.LastName}",
+                    ImageName = s.ImageName,
+                }).FirstOrDefault();
 
            if (korisnik == null)
             {
@@ -296,11 +313,19 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                 {
                     return View("Delete", new { product_id = id, msg = "Korisnik je već dodavao proizvode i nije ga moguće brisati." });
                 }
-              
+                string FileName = find_User.ImageName;
+                string Path = "wwwroot/images\\" + FileName;
+
+                FileInfo file = new FileInfo(Path);
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
+
                 _context.Users.Remove(find_User);
                 _context.SaveChanges();
 
-              
+               
 
                 return RedirectToAction(nameof(Index));
             }

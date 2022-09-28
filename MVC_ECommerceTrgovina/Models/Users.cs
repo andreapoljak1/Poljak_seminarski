@@ -15,8 +15,7 @@ namespace MVC_ECommerceTrgovina.Models
         public string Rola { get; set; }
         [NotMapped]
         public string RoleId { get; set; }
-        [NotMapped]
-        public string Email { get; set; }
+       
 
 
 
