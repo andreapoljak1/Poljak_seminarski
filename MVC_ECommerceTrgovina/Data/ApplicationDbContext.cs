@@ -97,6 +97,110 @@ namespace MVC_ECommerceTrgovina.Data
                         UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
 
                     }
+                    ,
+                    new Items
+                    {
+                        Id = 3,
+                        Title = "Program za obradu podataka",
+                        Description = "Obrada podataka nakon terenskog dijela posla, pohranjivanje i statistika stanja.",
+                        Quantity = 2,
+                        Price = 5000.00M,
+                        ImageName = "programming.jpg",
+                        CategoryId = 1,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+                    ,
+                    new Items
+                    {
+                        Id = 4,
+                        Title = "Stari mobiteli",
+                        Description = "Više starih mobitela, za dijelove...",
+                        Quantity = 1,
+                        Price = 1000.00M,
+                        ImageName = "history_of_mobile_phones.jpg",
+                        CategoryId = 2,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+                    ,
+                    new Items
+                    {
+                        Id = 5,
+                        Title = "Iphone 12",
+                        Description = "6,1-inčni (dijagonalno) OLED zaslon od ruba do ruba, Dvojna kamera od 12 MP: ultraširokokutna i širokokutna",
+                        Quantity = 1,
+                        Price = 8000.00M,
+                        ImageName = null,
+                        CategoryId = 2,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+                    ,
+                    new Items
+                    {
+                        Id = 6,
+                        Title = "Iphone 13",
+                        Description = "6,1-inčni (dijagonalno) OLED zaslon od ruba do ruba, Dvojna kamera od 12 MP: ultraširokokutna i širokokutna",
+                        Quantity = 1,
+                        Price = 10000.00M,
+                        ImageName = "iphone_13_review_2.jpg",
+                        CategoryId = 2,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+                    ,
+                    new Items
+                    {
+                        Id = 7,
+                        Title = "Samsung ZFlip",
+                        Description = "6.7'' Dynamic AMOLED 2X (2640 x 1080),10MP Prednja kamera Glavni zaslon",
+                        Quantity = 1,
+                        Price = 9000.00M,
+                        ImageName = "zflip.jpg",
+                        CategoryId = 2,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+                     ,
+                    new Items
+                    {
+                        Id = 8,
+                        Title = "Office 365 za škole",
+                        Description = "Besplatna Office365 usluga i alati koji omogućuju suradnju i komunikaciju između svih sudionika u obrazovnom sustavu.",
+                        Quantity = 10,
+                        Price = 0.00M,
+                        ImageName = "office365.png",
+                        CategoryId = 1,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+                     ,
+                    new Items
+                    {
+                        Id = 9,
+                        Title = "Microsoft 365 Business Basic",
+                        Description = "Alati koji omogućuju suradnju i komunikaciju između svih sudionika",
+                        Quantity = 10,
+                        Price = 100.00M,
+                        ImageName = "office365Basic.png",
+                        CategoryId = 1,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
+                     ,
+                    new Items
+                    {
+                        Id = 10,
+                        Title = "Microsoft 365 Business Premium",
+                        Description = "Alati koji omogućuju suradnju i komunikaciju između svih sudionika, sadrži alate Bussiness Basic i Bussines Start paketa",
+                        Quantity = 1,
+                        Price = 300.00M,
+                        ImageName = "office365Premium.png",
+                        CategoryId = 1,
+                        UserId = "ee36e8b3-229a-4024-9960-8d39f5bdcf48"
+
+                    }
                );
 
 

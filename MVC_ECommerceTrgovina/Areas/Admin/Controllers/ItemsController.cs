@@ -129,22 +129,46 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
         }
 
         // POST: Admin/Items/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Quantity,Price,ImageName,CategoryId,UserId")] Items items)
+        public async Task<IActionResult> Edit(int id, Items items, IFormFile Image)
         {
             if (id != items.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
-                    _context.Update(items);
+                if (Image != null)
+                {
+
+                    string FileName = items.ImageName;
+                    string PathDelete = "wwwroot/images\\" + FileName;
+
+                    FileInfo file = new FileInfo(PathDelete);
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+
+                    var image_name = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + "Item-" + Image.FileName.ToLower();
+
+                    var save_image_path = Path.Combine(
+                                                Directory.GetCurrentDirectory(),
+                                                "wwwroot/images",
+                                                image_name
+                                          );
+
+                    using (var stream = new FileStream(save_image_path, FileMode.Create))
+                    {
+                        Image.CopyTo(stream);
+                    }
+
+                    items.ImageName = image_name;
+                }
+                _context.Update(items);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -159,9 +183,8 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Title", items.CategoryId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", items.UserId);
+          
+          
             return View(items);
         }
 
