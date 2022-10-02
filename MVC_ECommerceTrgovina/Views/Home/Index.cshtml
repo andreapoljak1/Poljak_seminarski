@@ -4,22 +4,22 @@
 }
 @foreach (var item in Model)
 {
-    <div class="card float-md-start m-2" style="width: 18rem;">
-  @*<img class="card-img-top" src="..." alt="Card image cap">*@
+   <div class="card float-md-start m-2" style="width: 25rem;">
+ 
   @if (item.ImageName == null || item.ImageName == "")
             {
                <p>
-                    <img class="card-img-top" src="~/images/image-not-found.jpg" height=250; width=250 >
+                    <img class="card-img-top" src="~/images/image-not-found.jpg" height=250; width=100% >
                 </p>
             }
             else
             {
                  <p>
-                    <img class="card-img-top" src="~/images/@item.ImageName" height=250; width=250>
+                    <img class="card-img-top" src="~/images/@item.ImageName" height=250; >
                 </p>
                 
             }
-  <div class="card-body">
+  <div class="card-body" style="min-height:150px;">
     <h5 class="card-title">@item.Title</h5>
     <p class="card-text">@item.Description</p>
   </div>
@@ -28,8 +28,10 @@
 
   </ul>
   <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+   @* <a href="#" class="card-link">Card link</a>*@
+    <form asp-action="Detalji">
+        <button class="btn btn-outline-info" id="@item.Id">Detalji</button>
+   </form>
   </div>
 </div>
 }
