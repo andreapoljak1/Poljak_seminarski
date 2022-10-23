@@ -9,6 +9,7 @@ namespace MVC_ECommerceTrgovina.Models
     public class Users : ApplicationUser
     {
         [NotMapped]
+        [DisplayName("Ime")]
         public string Name { get; set; }
         [NotMapped]
         [DisplayName("Tip korisnika")]
