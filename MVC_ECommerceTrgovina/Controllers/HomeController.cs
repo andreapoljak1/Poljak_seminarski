@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MVC_ECommerceTrgovina.Data;
 using MVC_ECommerceTrgovina.Models;
+using MVC_ECommerceTrgovina.Repositories;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace MVC_ECommerceTrgovina.Controllers
@@ -20,7 +22,8 @@ namespace MVC_ECommerceTrgovina.Controllers
             List<Items> items = new List<Items>();
             if (categoryId == null)
             {
-                items = _context.Items.ToList();
+                //Koristim api za dohvat liste proizvoda
+                items = AllItemsApi();
 
             }
             else
@@ -32,6 +35,47 @@ namespace MVC_ECommerceTrgovina.Controllers
 
             return View(items);
         }
+
+
+        public IActionResult Detalji(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+           
+            string apiUrl = "https://localhost:7174/api/Items";
+
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = client.GetAsync(apiUrl + string.Format("/{0}", id)).Result;
+            Items item= new Items();
+            if (response.IsSuccessStatusCode)
+            {
+                item = JsonConvert.DeserializeObject<Items>(response.Content.ReadAsStringAsync().Result);
+            }
+
+
+            return View("Details", item);
+        }
+
+        private static List<Items> AllItemsApi()
+        {
+            List<Items> proizvodi = new List<Items>();
+            string apiUrl = "https://localhost:7174/api/Items";
+
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                proizvodi = JsonConvert.DeserializeObject<List<Items>>(response.Content.ReadAsStringAsync().Result);
+            }
+
+            return proizvodi;
+        }
+
+
+
+
 
         public IActionResult Privacy()
         {

@@ -29,7 +29,7 @@
   </ul>
   <div class="card-body">
    @* <a href="#" class="card-link">Card link</a>*@
-    <form asp-action="Detalji">
+    <form asp-action="Detalji" asp-route-id="@item.Id">
         <button class="btn btn-outline-info" id="@item.Id">Detalji</button>
    </form>
   </div>

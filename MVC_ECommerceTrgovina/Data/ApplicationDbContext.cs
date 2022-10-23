@@ -41,7 +41,17 @@ namespace MVC_ECommerceTrgovina.Data
 
         public DbSet<Category> Category { get; set; }
         public DbSet<Items> Items { get; set; }
-              
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress; Database=MVCSeminarECommerce; Trusted_Connection=True; MultipleActiveResultSets=true; TrustServerCertificate = true;");
+            }
+        }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -206,6 +216,7 @@ namespace MVC_ECommerceTrgovina.Data
 
         }
 
-      
+
+
     }
 }
