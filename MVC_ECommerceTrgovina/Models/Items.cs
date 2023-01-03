@@ -34,6 +34,8 @@ namespace MVC_ECommerceTrgovina.Models
         [ForeignKey("UserId")]
         public ApplicationUser? User { get; set; }
         public string? UserId { get; set; }
+        [NotMapped]
+        public string? CategoryName { get; set; }
 
     }
 }

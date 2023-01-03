@@ -19,7 +19,21 @@ namespace MVC_ECommerceTrgovina.Repositories
         }
         public Items GetItemById(int id)
         {
-            return _context.Items.FirstOrDefault(s => s.Id == id);
+            var item= _context.Items.Where(s => s.Id == id).Select(s => new Items
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Description = s.Description,
+                Quantity = s.Quantity,
+                Price = s.Price,
+                ImageName = s.ImageName,
+                CategoryId = s.CategoryId,
+                CategoryName = s.Category.Title
+
+
+
+            }).FirstOrDefault();
+            return item;
         }
        
 

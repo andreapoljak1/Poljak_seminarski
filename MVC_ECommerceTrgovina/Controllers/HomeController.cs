@@ -11,10 +11,12 @@ namespace MVC_ECommerceTrgovina.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        private IConfiguration _configuration;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IConfiguration iconfig)
         {
             _logger = logger;
             _context = context;
+            _configuration = iconfig;
         }
 
         public IActionResult Index(int? categoryId)
@@ -36,18 +38,17 @@ namespace MVC_ECommerceTrgovina.Controllers
             return View(items);
         }
 
-
+      
         public IActionResult Detalji(int id)
         {
             if (id == 0)
             {
                 return NotFound();
             }
-           
-            string apiUrl = "https://localhost:7174/api/Items";
 
+            string myapiUrl = _configuration.GetValue<string>("apiUrl");
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = client.GetAsync(apiUrl + string.Format("/{0}", id)).Result;
+            HttpResponseMessage response = client.GetAsync(myapiUrl + string.Format("/{0}", id)).Result;
             Items item= new Items();
             if (response.IsSuccessStatusCode)
             {
@@ -57,14 +58,15 @@ namespace MVC_ECommerceTrgovina.Controllers
 
             return View("Details", item);
         }
-
-        private static List<Items> AllItemsApi()
+      
+        public List<Items> AllItemsApi()
         {
             List<Items> proizvodi = new List<Items>();
-            string apiUrl = "https://localhost:7174/api/Items";
+            string myapiUrl = _configuration.GetValue<string>("apiUrl");
+
 
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+            HttpResponseMessage response = client.GetAsync(myapiUrl).Result;
             if (response.IsSuccessStatusCode)
             {
                 proizvodi = JsonConvert.DeserializeObject<List<Items>>(response.Content.ReadAsStringAsync().Result);

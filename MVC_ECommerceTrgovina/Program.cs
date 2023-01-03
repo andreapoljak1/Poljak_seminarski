@@ -13,7 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    // Omoguæeno korištenje rola u projektu
+    // Omoguï¿½eno koriï¿½tenje rola u projektu
     .AddRoles<IdentityRole>()
     
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -41,7 +41,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-// Postavke za decimalnu toèku
+// Postavke za decimalnu toï¿½ku
 var defaultDateCulture = "de-De";
 var ci = new CultureInfo(defaultDateCulture);
 
