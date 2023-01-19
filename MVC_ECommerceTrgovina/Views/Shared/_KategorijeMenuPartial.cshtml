@@ -1,0 +1,21 @@
+﻿@if(ViewBag.CategoriesCount > 0)
+{
+    
+  <div class="dropdown">
+        <a class="btn nav-link text-dark dropdown-toggle" id="dropdownMenu3" data-bs-toggle="dropdown" aria-expanded="false">
+          Kategorije
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
+
+            <li >
+               @foreach (var category in ViewBag.Categories)
+               {
+                   <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" asp-route-locationID="@category.Id">@category.Title</a>
+               }
+            </li>
+
+           
+        </ul>
+    </div>  
+}
+

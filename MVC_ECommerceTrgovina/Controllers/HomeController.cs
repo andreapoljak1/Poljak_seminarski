@@ -19,22 +19,30 @@ namespace MVC_ECommerceTrgovina.Controllers
             _configuration = iconfig;
         }
 
-        public IActionResult Index(int? categoryId)
+        public IActionResult Index(int? categoryId, int? locationID)
         {
             List<Items> items = new List<Items>();
-            if (categoryId == null)
+            Random random = new Random();
+            if (categoryId == null && locationID==null)
             {
                 //Koristim api za dohvat liste proizvoda
+
                 items = AllItemsApi();
+                items = items.OrderBy(x => random.Next(items.Count)).Take(10).ToList();
 
             }
             else
             {
+                if(locationID != null)
+                {
+                    categoryId=locationID.Value;
+                }
                 items = _context.Items.Where(s => s.CategoryId == categoryId).ToList();
+                items = items.OrderBy(x => random.Next(items.Count)).Take(10).ToList();
             }
-
-            ViewBag.Categories = _context.Category.ToList();
-
+            var categories= _context.Category.ToList();
+            ViewBag.Categories = categories;
+            ViewBag.CategoriesCount = categories.Count();
             return View(items);
         }
 

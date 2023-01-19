@@ -29,6 +29,7 @@ namespace MVC_ECommerceTrgovina.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
@@ -36,6 +37,7 @@ namespace MVC_ECommerceTrgovina.Areas.Identity.Pages.Account
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -43,6 +45,7 @@ namespace MVC_ECommerceTrgovina.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _roleManager = roleManager;
             _emailSender = emailSender;
         }
 
@@ -139,6 +142,9 @@ namespace MVC_ECommerceTrgovina.Areas.Identity.Pages.Account
                 //var user = CreateUser();
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email,FirstName=Input.FirstName, LastName = Input.LastName, Address = Input.Address, ZIPCode = Input.ZIPCode, City = Input.City, Country = Input.Country , ImageName =""};
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+
+              
+
                 //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -149,6 +155,12 @@ namespace MVC_ECommerceTrgovina.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var rolaKorisnik = _roleManager.FindByNameAsync("Korisnik").Result;
+
+                    if (rolaKorisnik != null)
+                    {
+                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, rolaKorisnik.Name);
+                    }
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
