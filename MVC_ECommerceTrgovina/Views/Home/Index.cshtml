@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@if(ViewBag.filter){
 <div class="row">
     @*Filter s kategorijama*@
     <div class="col-6">
@@ -11,7 +12,7 @@
             <div class="input-group mb-3">
                     
                 <select class="form-select" id="floatingSelect" name="categoryId">
-                    <option selected value="">All</option>
+                    <option selected value="">Svi</option>
                     @foreach(var category in ViewBag.Categories)
                     {
                     <option value="@category.Id">@category.Title</option>
@@ -27,6 +28,9 @@
         
     </div>
 </div>
+}
+
+<div style="margin-bottom:60px; float:left">
 
 @foreach (var item in Model)
 {
@@ -61,4 +65,4 @@
   </div>
 </div>
 }
-
+</div>

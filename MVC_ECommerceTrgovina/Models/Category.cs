@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC_ECommerceTrgovina.Models
@@ -10,7 +11,9 @@ namespace MVC_ECommerceTrgovina.Models
 
         [Required]
         [StringLength(200, MinimumLength = 2)]
+        [DisplayName("Naziv")]
         public string Title { get; set; }
+        [DisplayName("Opis")]
         public string? Description { get; set; }
         [NotMapped]
         public ICollection<Items>? Item { get; set; }

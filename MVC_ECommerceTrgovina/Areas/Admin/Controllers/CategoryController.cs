@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVC_ECommerceTrgovina.Data;
 using MVC_ECommerceTrgovina.Models;
 
 namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin, Urednik")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;

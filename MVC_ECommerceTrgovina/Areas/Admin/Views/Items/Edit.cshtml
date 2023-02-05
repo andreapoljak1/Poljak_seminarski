@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Izmjena</h1>
 
-<h4>Items</h4>
+<h4>Proizvodi</h4>
 <hr />
  <form asp-action="Edit"  enctype="multipart/form-data">
 <div class="row">
@@ -53,8 +53,9 @@
         }
         else
         {
-                <p>
-                <img src="~/images/@Model.ImageName" height=250; width=250>
+             <p>
+                <img  src="~/images/@Model.ImageName" height=250; width=250>
+                 <input asp-for="ImageName" type="hidden" />
             </p>
                 
         }
@@ -66,7 +67,7 @@
     </div>
          
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Spremi" class="btn btn-primary" />
             </div>
    
     </div>
@@ -75,6 +76,6 @@
      </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Povratak</a>
 </div>
 

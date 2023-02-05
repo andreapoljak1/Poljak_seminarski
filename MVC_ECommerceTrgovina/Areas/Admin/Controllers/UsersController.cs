@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin, Urednik")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -119,9 +119,7 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
                 _context.Add(korisnik);
                 _context.SaveChanges(); 
 
-                //Ograničavam na dvije role, admina više nije moguće dodati svi ostali su korisnici.
-
-               var UserRoleId= _context.Roles.FirstOrDefault(s=>s.Name=="Korisnik");
+               var UserRoleId= _context.Roles.FirstOrDefault(s=>s.Name== "Urednik");
                
                 IdentityUserRole<string> identityUserRole= new IdentityUserRole<string>();
                 identityUserRole.UserId = korisnik.Id;

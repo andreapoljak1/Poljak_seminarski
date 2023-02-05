@@ -21,23 +21,30 @@ namespace MVC_ECommerceTrgovina.Controllers
 
         public IActionResult Index(int? categoryId, int? locationID)
         {
+           
             List<Items> items = new List<Items>();
             Random random = new Random();
+            ViewBag.filter = true;
             if (categoryId == null && locationID==null)
             {
                 //Koristim api za dohvat liste proizvoda
 
                 items = AllItemsApi();
                 items = items.OrderBy(x => random.Next(items.Count)).Take(10).ToList();
-
+              
             }
             else
             {
                 if(locationID != null)
                 {
                     categoryId=locationID.Value;
+                    ViewBag.filter = false;
                 }
                 items = _context.Items.Where(s => s.CategoryId == categoryId).ToList();
+                if (items.Count() == 0)
+                {
+                    return RedirectToAction("Index");
+                }
                 items = items.OrderBy(x => random.Next(items.Count)).Take(10).ToList();
             }
             var categories= _context.Category.ToList();

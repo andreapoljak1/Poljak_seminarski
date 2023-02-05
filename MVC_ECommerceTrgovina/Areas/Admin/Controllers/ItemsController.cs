@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using MVC_ECommerceTrgovina.Models;
 namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin, Urednik")]
     public class ItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -62,10 +64,10 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
         }
 
         // GET: Admin/Items/Create
-        public IActionResult Create()
+        public IActionResult Create(string? message)
         {
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Title");
-          
+            ViewBag.message = message;
             return View();
         }
 
@@ -77,6 +79,16 @@ namespace MVC_ECommerceTrgovina.Areas.Admin.Controllers
         {
             try
             {
+                string message;
+                if (items == null)
+                {
+                    return NotFound();
+                }
+                if (items.CategoryId == 0)
+                {
+                    message = "Kategorija je potrebna za unos stavke.";
+                    return RedirectToAction("Create", new { message = message });
+                }
                 if (Image != null)
                 {
                     var image_name = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + "Item-" + Image.FileName.ToLower();
